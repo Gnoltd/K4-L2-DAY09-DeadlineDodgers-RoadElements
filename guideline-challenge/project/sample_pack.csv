@@ -1,1 +1,15 @@
 sample_id,split,tags,reason
+GTS05,example,normal,Minh hoạ biển tốc độ và biển cảnh báo trên cột theo mục 9 guideline
+GTS06,example,conflict,Minh hoạ biển tốc độ nhỏ kèm bảng phụ theo mục 9 guideline
+GTS07,example,ambiguity,Minh hoạ biển tốc độ trong cảnh phức tạp có xe buýt theo mục 9 guideline
+GTS01,calibration,normal,Đoạn đường có biển báo rõ kiểm tra tính nhất quán bounding box
+GTS03,calibration,occlusion,Biển có thể bị che khuất một phần đối chiếu đánh giá visibility
+GTS04,calibration,normal,Biển báo tiêu chuẩn kiểm tra gán nhãn macro-class
+GTS08,calibration,edge,Biển ở khoảng cách trung bình kiểm tra thuộc tính ego_relevance
+GTS10,calibration,normal,Biển báo trên đường phố kiểm tra quy tắc bao sát viền mặt biển
+GTS11,calibration,conflict,Cột biển có nhiều biển kiểm tra quy tắc phân rã từng mặt biển
+GTS18,blind,normal,Biển rõ ràng trên cột kiểm tra khả năng tách 2 instance trên cùng cột
+GTS26,blind,edge;small_far,Biển tam giác rất nhỏ ở xa kiểm tra phát hiện biển nhỏ không bỏ sót
+GTS27,blind,edge;low_visibility,Biển tam giác ngược sáng mất màu nền kiểm tra nhận diện hình dáng
+GTS23,blind,critical,Nút giao có 2 biển STOP và biển mũi tên kiểm tra phân loại biển ưu tiên
+GTS09,blind,ambiguity;low_visibility,Vòng xuyến chạng vạng nhiều biển chỉ dẫn kiểm tra ranh giới thông tin

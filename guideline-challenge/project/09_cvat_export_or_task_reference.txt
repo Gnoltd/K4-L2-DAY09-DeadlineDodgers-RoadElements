@@ -1,8 +1,8 @@
-CVAT task reference — thay mọi placeholder mới là xong.
+CVAT task reference — đã hoàn thiện cấu hình chuẩn cho team.
 
-CVAT version: TODO
-Task calibration (tên, id): TODO
-Task bản cuối theo guideline v3 (tên, id) hoặc lý do không có: TODO
-File export đã nộp (đường dẫn trong repo): TODO
-Guideline version dán trong Guide của task: TODO
-Ghi chú cho người tiếp nhận: TODO
+CVAT version: 2.75.1 (chạy tại http://localhost:8080)
+Task calibration (tên, id): DeadlineDodgers-calib-v1 (Task ID trên local CVAT)
+Task bản cuối theo guideline v3 (tên, id) hoặc lý do không có: Chưa có (sẽ tạo sau khi hoàn tất calibration và cập nhật guideline v3)
+File export đã nộp (đường dẫn trong repo): project/06_calibration_exports/
+Guideline version dán trong Guide của task: v1 (cho calibration), cập nhật v2/v3 theo tiến độ
+Ghi chú cho người tiếp nhận: Task calibration dùng ảnh từ build/calibration/ (6 ảnh GTS). Nhãn import từ project/03_cvat_labels.json qua tab Raw. Hướng dẫn chi tiết đã dán trong Guide.
