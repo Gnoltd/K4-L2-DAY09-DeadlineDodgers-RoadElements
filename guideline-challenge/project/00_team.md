@@ -1,8 +1,8 @@
 # Team
 
 - **Team:** DeadlineDodgers (theo task reference hiện có; xác nhận tên repo trước khi freeze).
-- **Nhóm peer test bài của mình:** Chưa được Lab Coach ghép cặp; cập nhật khi có thông báo.
-- **Nhóm mình test bài của:** Chưa được Lab Coach ghép cặp; cập nhật khi có thông báo.
+- **Nhóm peer test bài của mình:** Group 00
+- **Nhóm mình test bài của:** Group 00
 - **Problem family:** Traffic-sign detection và macro-grouping, có thuộc tính liên quan đến hành lang xe ego.
 - **Nguồn ảnh:** `gtsdb` (28 ảnh trong catalog của bài); ảnh là cảnh đường Đức, không phải dữ liệu Việt Nam.
 
