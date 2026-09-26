@@ -5,8 +5,7 @@ mới là xong.
 
 ## Bài toán
 
-TODO — một câu: road element nào, trong tình huống nào, khó ở đâu. "Label traffic signs" là quá rộng; "hierarchical
-sign taxonomy cho biển nhỏ/xa/bị che" là đủ cụ thể.
+Gắn nhãn biển báo theo nhóm (cấm/hiệu lệnh/nguy hiểm)
 
 ## Downstream contract
 
