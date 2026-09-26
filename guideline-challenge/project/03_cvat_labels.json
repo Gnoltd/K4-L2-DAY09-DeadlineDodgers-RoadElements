@@ -1,22 +1,29 @@
 [
 	{
-		"name": "prohibitory",
+		"name": "traffic_sign",
 		"color": "#D93A32",
 		"type": "rectangle",
 		"attributes": [
 			{
-				"name": "ego_relevance",
+				"name": "sign_group",
 				"mutable": false,
 				"input_type": "select",
 				"default_value": "__undefined__",
-				"values": ["__undefined__", "relevant", "irrelevant", "unknown"]
+				"values": ["__undefined__", "prohibitory", "mandatory", "danger", "priority", "information", "supplementary", "unknown"]
+			},
+			{
+				"name": "ego_relevant",
+				"mutable": false,
+				"input_type": "select",
+				"default_value": "relevant",
+				"values": ["relevant", "not_relevant", "uncertain"]
 			},
 			{
 				"name": "visibility",
 				"mutable": false,
 				"input_type": "select",
-				"default_value": "__undefined__",
-				"values": ["__undefined__", "readable", "blurry", "occluded", "unknown"]
+				"default_value": "clear",
+				"values": ["clear", "partial", "poor"]
 			},
 			{
 				"name": "needs_review",
@@ -26,123 +33,5 @@
 				"values": ["false"]
 			}
 		]
-	},
-	{
-		"name": "mandatory",
-		"color": "#2378C9",
-		"type": "rectangle",
-		"attributes": [
-			{
-				"name": "ego_relevance",
-				"mutable": false,
-				"input_type": "select",
-				"default_value": "__undefined__",
-				"values": ["__undefined__", "relevant", "irrelevant", "unknown"]
-			},
-			{
-				"name": "visibility",
-				"mutable": false,
-				"input_type": "select",
-				"default_value": "__undefined__",
-				"values": ["__undefined__", "readable", "blurry", "occluded", "unknown"]
-			},
-			{
-				"name": "needs_review",
-				"mutable": false,
-				"input_type": "checkbox",
-				"default_value": "false",
-				"values": ["false"]
-			}
-		]
-	},
-	{
-		"name": "danger",
-		"color": "#D99016",
-		"type": "rectangle",
-		"attributes": [
-			{
-				"name": "ego_relevance",
-				"mutable": false,
-				"input_type": "select",
-				"default_value": "__undefined__",
-				"values": ["__undefined__", "relevant", "irrelevant", "unknown"]
-			},
-			{
-				"name": "visibility",
-				"mutable": false,
-				"input_type": "select",
-				"default_value": "__undefined__",
-				"values": ["__undefined__", "readable", "blurry", "occluded", "unknown"]
-			},
-			{
-				"name": "needs_review",
-				"mutable": false,
-				"input_type": "checkbox",
-				"default_value": "false",
-				"values": ["false"]
-			}
-		]
-	},
-	{
-		"name": "other",
-		"color": "#7C6A58",
-		"type": "rectangle",
-		"attributes": [
-			{
-				"name": "ego_relevance",
-				"mutable": false,
-				"input_type": "select",
-				"default_value": "__undefined__",
-				"values": ["__undefined__", "relevant", "irrelevant", "unknown"]
-			},
-			{
-				"name": "visibility",
-				"mutable": false,
-				"input_type": "select",
-				"default_value": "__undefined__",
-				"values": ["__undefined__", "readable", "blurry", "occluded", "unknown"]
-			},
-			{
-				"name": "needs_review",
-				"mutable": false,
-				"input_type": "checkbox",
-				"default_value": "false",
-				"values": ["false"]
-			}
-		]
-	},
-	{
-		"name": "unknown_sign",
-		"color": "#6E7781",
-		"type": "rectangle",
-		"attributes": [
-			{
-				"name": "ego_relevance",
-				"mutable": false,
-				"input_type": "select",
-				"default_value": "__undefined__",
-				"values": ["__undefined__", "relevant", "irrelevant", "unknown"]
-			},
-			{
-				"name": "visibility",
-				"mutable": false,
-				"input_type": "select",
-				"default_value": "__undefined__",
-				"values": ["__undefined__", "readable", "blurry", "occluded", "unknown"]
-			},
-			{
-				"name": "needs_review",
-				"mutable": false,
-				"input_type": "checkbox",
-				"default_value": "false",
-				"values": ["false"]
-			}
-		]
-	},
-	{
-		"name": "image_escalate",
-		"color": "#8B5B42",
-		"type": "tag",
-		"attributes": []
 	}
 ]
