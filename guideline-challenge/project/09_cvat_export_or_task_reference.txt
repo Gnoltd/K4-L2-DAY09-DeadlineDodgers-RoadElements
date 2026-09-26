@@ -1,12 +1,10 @@
-CVAT task reference — trạng thái cấu hình và export của team.
+CVAT task reference — trạng thái cấu hình và export của team DeadlineDodgers.
 
-CVAT version: 2.75.1 (endpoint http://localhost:8080 đã xác nhận reachable)
-Task calibration (tên, id): DeadlineDodgers-calib-v1 (task ID chưa được ghi lại)
-Task bản cuối theo guideline v3 (tên, id) hoặc lý do không có: Chưa có (sẽ tạo sau khi hoàn tất calibration và cập nhật guideline v3)
-File export đã nộp (đường dẫn trong repo): Chưa có; project/06_calibration_exports/ chỉ có .gitkeep.
-Guideline version dán trong Guide của task: v1 (cho calibration), cập nhật v2/v3 theo tiến độ
-Ghi chú cho người tiếp nhận: build/calibration/ hiện có GTS01, GTS03, GTS04, GTS08, GTS10, GTS11. Task được ghi nhận trước khi cập nhật schema/split; cần đồng bộ task và Guide bằng file hiện tại trước khi label/export.
-
-Setup test độc lập: Chưa có bằng chứng người thử mở task sau cập nhật; ghi kết quả sau khi thực hiện.
-
-Lưu ý cập nhật 2026-09-26: task reference này được ghi trước lần thay đổi ontology và sample split. Chưa xác nhận task trên CVAT khớp schema năm rectangle labels và ảnh hiện tại; không dùng task/export cũ làm bằng chứng calibration cho đến khi đồng bộ hoặc tạo task mới.
+CVAT version: 2.75.1 (http://localhost:8080, mỗi thành viên chạy CVAT trên máy mình)
+Schema: 1 rectangle label `traffic_sign` + 4 attribute (`sign_group`, `ego_relevant`, `visibility`, `needs_review`) theo project/03_cvat_labels.json (commit cba2648).
+Task calibration (tên, id): DeadlineDodgers-calib-v1-long và DeadlineDodgers-calib-v1-thaiha, mỗi người một task trên CVAT máy mình, 6 ảnh build/calibration/ (GTS01, GTS03, GTS04, GTS08, GTS10, GTS11). Task id là id cục bộ trên từng máy, không dùng chung.
+Task bản cuối theo guideline v3 (tên, id) hoặc lý do không có: Không tạo task production riêng; bài lab chỉ có calibration và blind test. Guideline v3 được cập nhật sau blind handoff để dùng cho lượt gán nhãn tiếp theo.
+Task peer (nhóm mình làm peer cho nhóm Traffic Light): 4 ảnh BDD02, BDD15, BDD18, BDD26 từ blind-pack của nhóm đó; export gửi lại là deadlinedodgers_peer.zip kèm PEER_FEEDBACK.md.
+File export đã nộp (đường dẫn trong repo): project/06_calibration_exports/long.zip, project/06_calibration_exports/thaiha.zip; export của nhóm peer trên ảnh blind của mình nằm ở project/07_blind_handoff/peer_output/ sau khi chạy `python lab9.py score`.
+Guideline version dán trong Guide của task: calibration dùng v1; gói blind (handoff) dùng v2 đã freeze (tag gold-freeze).
+Ghi chú cho người tiếp nhận: hai export calibration được vẽ bằng schema cũ (5 class, `ego_relevance`) trước khi JSON được đồng bộ; giới hạn này ghi trong dòng v2 của 08_revision_log.md. Mọi task mới phải dán project/03_cvat_labels.json hiện tại (chỉ có label `traffic_sign`). Gold đã freeze ở tag gold-freeze; không sửa project/04_edge_cases/gold_decisions.csv và project/sample_pack.csv.
