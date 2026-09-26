@@ -1,13 +1,13 @@
 sample_id,split,tags,reason
-GTS05,example,normal,Minh hoạ biển tốc độ và biển cảnh báo trên cột theo mục 9 guideline
-GTS06,example,conflict,Minh hoạ biển tốc độ nhỏ kèm bảng phụ theo mục 9 guideline
-GTS07,example,ambiguity,Minh hoạ biển tốc độ trong cảnh phức tạp có xe buýt theo mục 9 guideline
-GTS01,calibration,normal,Đoạn đường có biển báo rõ kiểm tra tính nhất quán bounding box
-GTS03,calibration,occlusion,Biển có thể bị che khuất một phần đối chiếu đánh giá visibility
-GTS04,calibration,normal,Biển báo tiêu chuẩn kiểm tra gán nhãn macro-class
-GTS08,calibration,edge,Biển ở khoảng cách trung bình kiểm tra thuộc tính ego_relevance
-GTS10,calibration,normal,Biển báo trên đường phố kiểm tra quy tắc bao sát viền mặt biển
-GTS11,calibration,conflict,Cột biển có nhiều biển kiểm tra quy tắc phân rã từng mặt biển
+GTS05,example,normal;ambiguity,Góc phố: biển người đi bộ và biển 30 ở đường nhánh (ego_relevant uncertain) cùng mặt sau biển và biển quán không vẽ - ví dụ mục 9
+GTS06,example,conflict,Biển tốc độ kèm hai biển phụ: tách 3 khung và biển phụ lấy ego_relevant theo biển chính - ví dụ mục 9
+GTS07,example,small_far;negative,Cầu thi công: chấm đỏ khoảng 10 px không vẽ; hai tấm vuông nhỏ unknown/poor; rào chắn không phải biển - ví dụ mục 9
+GTS01,calibration,small_far,Tam giác và tròn đỏ nhỏ ở xa bên phải cùng biển nhỏ bên trái: thử ngưỡng chấm màu và ego_relevant biển bên trái
+GTS03,calibration,edge;small_far,Đường nhiều làn có mũi tên sơn trên làn và biển rất nhỏ ở xa: thử ego_relevant dòng 7 và visibility poor
+GTS04,calibration,edge;low_visibility,Cao tốc sương mù: biển chỉ hướng không vẽ và biển tốc độ trên dải phân cách bên trái vẫn relevant
+GTS08,calibration,edge,Dưới cầu vượt: cặp biển cấm lặp lại hai bên đường cùng relevant và biển chỉ đường cần bỏ
+GTS10,calibration,normal,Phố có biển tròn xanh mũi tên và biển P: thử ranh giới mandatory và information
+GTS11,calibration,conflict,Đảo giữa có biển tròn xanh đi vòng và biển P cạnh đèn giao thông: thử tách biển với đèn và ego_relevant
 GTS18,blind,normal,Biển rõ ràng trên cột kiểm tra khả năng tách 2 instance trên cùng cột
 GTS26,blind,edge;small_far,Biển tam giác rất nhỏ ở xa kiểm tra phát hiện biển nhỏ không bỏ sót
 GTS27,blind,edge;low_visibility,Biển tam giác ngược sáng mất màu nền kiểm tra nhận diện hình dáng

@@ -137,27 +137,64 @@ Diversity: low_visibility
 
 ---
 
+CASE ID: EC11
+Sample: GTS02
+Scene: Ngã tư dưới cầu, hai cột hai bên: mỗi cột một tam giác ngược trên một biển tròn xanh mũi tên (trái: rẽ trái; phải: rẽ phải)
+Observation: ego đi sau xe trắng, không thấy rõ mũi tên sơn trên làn ego; hai biển mũi tên chỉ hai hướng khác nhau
+Decision: ESCALATE (ego_relevant)
+Expected: 2 × `priority` `relevant`; 2 × `mandatory` `ego_relevant = uncertain`, `needs_review` bật
+Rationale: biển hướng đi bắt buộc có thể chỉ dành cho một làn (guideline 4.3 dòng 7); không có bằng chứng làn thì không được đoán `not_relevant`
+Common mistake: đánh `not_relevant` cho biển cột trái chỉ vì nằm bên trái; hoặc để mặc định `relevant` cho cả hai biển mâu thuẫn nhau
+Diversity: ambiguity · escalation · conflict
+
+---
+
+CASE ID: EC12
+Sample: GTS24
+Scene: Ngã tư phố có đường ray; biển nhỏ ở góc phố bên trái phía bên kia ngã tư
+Observation: biển P xanh, cấm dừng/đỗ, tròn đỏ nhỏ đặt ở góc đường nhánh bên trái; biển tròn xanh mũi tên thẳng và vuông xanh bên phải trên đường ego
+Decision: LABEL + ESCALATE
+Expected: biển bên phải `relevant`, `clear`; biển góc trái: `visibility = poor`, `ego_relevant = not_relevant` nếu thấy rõ quay vào đường nhánh, không thì `uncertain` + `needs_review`
+Rationale: biển của đường nhánh vẫn phải vẽ (detector cần) nhưng không được coi là lệnh cho ego (4.3 dòng 1)
+Common mistake: để mặc định `relevant` và `clear` cho biển xa ở đường nhánh
+Diversity: small_far · conflict
+
+---
+
 ## Case dự phòng cho ảnh Việt Nam (chưa có ảnh trong `data/`)
 
 Chưa tính là card vì không có sample. Rule tương ứng **đã có** trong guideline v1; khi dự án có ảnh VN, chọn ảnh
 thật cho từng case rồi chuyển thành card.
 
-| Case | Rủi ro | Cách xử lý trong v1 | Chỗ trong guideline |
-|---|---|---|---|
-| Tam giác nguy hiểm **nền vàng** (VN) so với nền trắng (Đức) | Người quen biển Đức chọn `unknown` | Hình trước màu sau: tam giác đỉnh lên viền đỏ là `danger` | 4.1, 4.2 dòng 5 |
-| **Bảng ghép** nhiều hình biển trên một tấm nền, kèm chữ giờ | Vẽ một khung cho cả bảng | Mỗi hình biển một khung, vùng chữ một khung `supplementary`, không vẽ tấm nền | 2 |
-| **Biển phụ "trừ xe buýt", giờ, loại xe** (S) | Bỏ qua, dù nó đổi ý nghĩa | `supplementary`, khung riêng | 2, 4.1 |
-| **Biển phân làn trên giá long môn** | Tách từng ô, hoặc gọi là chỉ hướng | Một khung cho cả tấm; có ký hiệu bắt buộc từng làn → `mandatory` | 2, 4.1 |
-| **Biển chỉ hướng trên cao tốc** (xanh lá/xanh dương, tên nơi) | Vẽ vì to và rõ | Không vẽ | 4.2 dòng 7, 5 |
-| **Biển tạm công trường**, biển trên xe công trình | Bỏ qua vì "không phải biển cố định" | Vẽ bình thường theo nhóm | 1, 5 |
-| **Biển điện tử** tốc độ / thông tin | Không biết chọn nhóm | Theo nội dung đang hiển thị; tắt → `unknown` + `needs_review` | 6 |
-| **Biển bị cây, dây điện, bảng quảng cáo che** (rất phổ biến ở VN) | Hai người khác nhau ở ngưỡng che | Che từ khoảng một nửa → `needs_review`; mất hình → `unknown` | 6, 7 |
-| **Biển phai màu, bị dán quảng cáo đè, bị bẻ cong** | Chọn `unknown` quá nhiều hoặc đoán | Hình còn rõ thì chọn nhóm + `needs_review` | 6, 7 |
-| **Hình biển trên thân xe, quảng cáo, áp phích** | Vẽ như biển thật | Không vẽ | 5 |
-| **Biển cấm đi ngược chiều** | GTSDB xếp vào "other", QCVN xếp vào cấm | `prohibitory` (theo chức năng) | 4.1, 4.2 dòng 3 |
-| **Dừng lại (R.122)** thuộc nhóm hiệu lệnh trong QCVN | Chọn `mandatory` theo quy chuẩn | `priority` (theo chức năng, bát giác) | 4.2 dòng 2 |
+| Case | Rủi ro | Cách xử lý trong v1 | Căn cứ QCVN 41:2024 | Chỗ trong guideline |
+|---|---|---|---|---|
+| Tam giác nguy hiểm **nền vàng** (VN) so với nền trắng (Đức) | Người quen biển Đức chọn `unknown` | Hình trước màu sau: tam giác đỉnh lên viền đỏ là `danger` | Điều 11.3, 29.1 | 4.1, 4.2 dòng 5 |
+| **W.208** tam giác đỉnh xuống nằm trong nhóm W | Chọn `danger` theo chương quy chuẩn | `priority` | Điều 29.1 (ngoại lệ đỉnh hướng xuống) | 4.2 dòng 2 |
+| **R.122 "Dừng lại"** nằm trong nhóm R | Chọn `mandatory` theo chương quy chuẩn | `priority` | Phụ lục D.1 ("biển hiệu lệnh dạng đặc biệt") | 4.2 dòng 2 |
+| **I.401/I.402** đường ưu tiên nằm trong nhóm I | Chọn `information` | `priority` | Điều 36.1 | 4.2 dòng 2 |
+| **P.132** nhường xe ngược chiều qua đường hẹp | Chọn `priority` vì có chữ "nhường" | `prohibitory` (tròn viền đỏ); I.406 chiều ngược lại là `information` | Điều 22.1, 36.1 | 4.2 dòng 3, 6 |
+| **Biển hết hiệu lệnh** (nền xanh vạch chéo đỏ: R.307, R.404, R.412i–p, R.421) | Chọn `prohibitory` vì thấy vạch chéo | `mandatory` | Điều 33.1 | 4.2 dòng 4, mục 10.7 |
+| **Bắt đầu/hết khu đông dân cư R.420/R.421** (nhóm R, dù trông giống biển chỉ dẫn) | Bỏ qua vì có tên nơi, hoặc chọn `information` | `mandatory` | Điều 32.1 | 4.1, 4.2 dòng 4 |
+| **P.127b/c** tốc độ tối đa từng làn (tấm chữ nhật xanh chia làn) | Chọn `mandatory` vì nền xanh chữ nhật | Một khung cả tấm, `prohibitory` (chứa vòng tròn viền đỏ) | Phụ lục B.27 | 2, 4.2 dòng 3 |
+| **Biển ghép** nhiều hình biển trên một tấm nền, kèm chữ giờ | Vẽ một khung cho cả tấm | Mỗi hình biển đơn một khung, vùng chữ một khung `supplementary` | Điều 18.4, 18.5 | 2 |
+| **Biển phụ "TẠM THỜI"**, "trừ xe buýt", giờ, loại xe | Bỏ qua, dù nó đổi ý nghĩa | `supplementary`, khung riêng | Điều 14.3, 41 | 2, 4.1 |
+| **S.507 "Hướng rẽ"** đặt độc lập ở đường cong | Không biết nhóm vì không có biển chính đi kèm | `supplementary` | Điều 41.1 | 4.2 dòng 1 |
+| **Biển điện tử VMS** chỉ hiện chữ | Không biết chọn nhóm | Nhóm theo màu chữ: đỏ cấm, trắng/da cam hiệu lệnh, vàng cảnh báo, xanh lam chỉ dẫn; tắt thì không vẽ | Điều 14.2.5 | 6 |
+| **Biển viết bằng chữ** đứng riêng | Chọn `unknown` vì không có hình | Nhóm theo màu nền: đỏ "Cấm…" `prohibitory`, đỏ khác `mandatory`, vàng `danger`, xanh `information` | Điều 42.2 | 4.2 dòng 8 |
+| **Biển chỉ hướng** thường và trên cao tốc (I.414, I.415, I.419, IE) | Vẽ vì to và rõ | Không vẽ | Điều 36.1, chương 9 | 4.2 dòng 7, 5 |
+| **Biển tạm công trường**, biển trên xe công trình | Bỏ qua vì "không phải biển cố định" | Vẽ bình thường theo nhóm | Điều 14.3 (biển tạm có hiệu lực cao hơn biển cố định) | 1, 5 |
+| **Biển bị cây, dây điện, bảng quảng cáo che** (rất phổ biến ở VN) | Hai người khác nhau ở ngưỡng che | Che từ khoảng 1/4 → `partial`; từ một nửa → thêm `needs_review`; mất hình → `unknown` | — | 4.4, 6, 7 |
+| **Biển phai màu, bị dán quảng cáo đè, bị bẻ cong** | Chọn `unknown` quá nhiều hoặc đoán | Hình còn rõ thì chọn nhóm, `poor` + `needs_review` | — | 6, 7 |
+| **Hình biển trên thân xe, quảng cáo, áp phích** | Vẽ như biển thật | Không vẽ | — | 5 |
+| **Giá long môn nhiều biển, mỗi biển trên một làn** (VN hay dùng cho biển cấm/hiệu lệnh trên đường nhiều làn) | Đánh `relevant` cho tất cả | Biển trên làn ego `relevant`, trên làn khác `not_relevant` | Điều 15.2, 17.4 | 4.3 dòng 3 |
+| **Biển có S.504 "Làn đường"** | Bỏ qua biển phụ, đánh `relevant` | `not_relevant` nếu biển phụ không gồm làn ego | Điều 41.2.1 | 4.3 dòng 5 |
+| **Ego làn trái, biển "hướng phải đi" rẽ phải đặt bên phải** cạnh làn rẽ phải có mũi tên sơn | Để mặc định `relevant` | `not_relevant` khi mũi tên sơn làn ego mâu thuẫn; không thấy mũi tên sơn → `uncertain` | Điều 15.2 | 4.3 dòng 7, 9 |
+| **Biển đường gom / đường song song** sau dải phân cách cứng (đường đô thị VN nhiều làn) | Đánh `relevant` vì cùng chiều | `not_relevant` | — | 4.3 dòng 1 |
+| **Biển cho làn xe máy riêng** (R.412d) khi ego là ô tô ở làn ô tô | Đánh `not_relevant` theo loại xe | Theo vị trí làn (4.3 dòng 3, 5, 6), không theo loại xe | Điều 15.2 | 4.3 |
+| **Biển bên trái** cùng chiều trên đường một chiều hoặc dải phân cách giữa | Đánh `not_relevant` vì ở bên trái | `relevant` (biển được phép đặt bổ sung bên trái) | Điều 16.2 | 4.3, mục 10.14 |
 
-Mã QCVN trong bảng là tham khảo; đối chiếu lại với QCVN 41:2019/BGTVT trước khi dùng cho dự án thật.
+Mã biển và số điều đối chiếu với QCVN 41:2024/BGTVT (bản kèm Thông tư ban hành 15/11/2024, file
+`51-bgtvt-kem.pdf`).
 
 ## Hướng xử lý cho v2 và v3
 
@@ -170,11 +207,14 @@ Mã QCVN trong bảng là tham khảo; đối chiếu lại với QCVN 41:2019/B
 | `needs_review` bật tuỳ tiện | Cột `needs_review` lệch dù `sign_group` khớp | Giữ đúng 5 điều kiện ở mục 7; bỏ điều kiện nào gây lệch mà không giúp downstream |
 | Biển bị che "khoảng một nửa" | `needs_review` lệch ở biển bị che | Đổi sang mốc dễ nhìn hơn (ví dụ "không thấy tâm biển") |
 | `supplementary` bị bỏ sót | Số khung lệch 1–2 ở ảnh có tấm phụ | Nhấn mạnh trong Common mistakes, thêm ví dụ GTS06 lên đầu |
+| `ego_relevant` giữa `relevant` / `uncertain` (EC11, EC12) | Cột `ego_relevant` lệch ở biển đường nhánh, biển mũi tên | Thêm ảnh ví dụ cho từng dòng 1–7 của 4.3; nếu vẫn lệch nhiều, thu hẹp `not_relevant` về các dòng có bằng chứng hình học rõ (1, 3, 5, 6) |
+| `visibility` giữa `clear` / `partial` / `poor` | Cột `visibility` lệch dù nhóm khớp | Chốt mốc 1/4 bằng ảnh ví dụ; nếu vẫn lệch, gộp còn hai mức `clear` / `degraded` |
+| Người vẽ quên đổi mặc định | `relevant`/`clear` xuất hiện ở biển `unknown` hoặc biển đường nhánh | QA lọc tự động: `unknown` mà `clear` là lỗi; nếu tỉ lệ cao, đổi mặc định về `__undefined__` |
 
 **Hướng cho v3 (sau blind):**
 
 - Mỗi câu peer hỏi trong `clarification_log.csv` → một dòng rule hoặc một ví dụ mới trong guideline, không trả lời miệng.
 - Nếu peer sai nhóm ở cùng một loại biển nhiều lần → thêm dòng vào thứ tự quyết định 4.2 chứ không chỉ thêm ví dụ.
 - Nếu peer bỏ sót biển nhỏ → thêm bước "quét ảnh" (trái → phải, gần → xa) vào đầu mục 5.
-- Ứng viên attribute mới, chỉ thêm khi có bằng chứng downstream cần: `temporary` (biển tạm công trường ghi đè biển
-  cố định), `applies_to_ego` (biển có áp dụng cho làn xe mình). Thêm attribute làm tăng bất đồng, nên cân nhắc kỹ.
+- Ứng viên attribute mới, chỉ thêm khi có bằng chứng downstream cần: `temporary` (biển tạm ghi đè biển cố định theo
+  QCVN 41:2024 Điều 14.3; biển VMS ghi đè biển tĩnh theo Điều 14.1). Thêm attribute làm tăng bất đồng, nên cân nhắc kỹ.

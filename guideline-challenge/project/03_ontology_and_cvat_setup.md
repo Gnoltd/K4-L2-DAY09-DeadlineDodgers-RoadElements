@@ -6,35 +6,41 @@ Bảng ontology là **source of truth** cho schema CVAT: `03_cvat_labels.json` p
 
 | Name | Geometry | Type (class / attribute) | Allowed values | Default | Mutable? | Rationale |
 |---|---|---|---|---|---|---|
-| `prohibitory` | Rectangle quanh mặt biển | Class | Macro class | N/A | No | Nhóm cấm/hạn chế theo đặc tả R&D |
-| `mandatory` | Rectangle quanh mặt biển | Class | Macro class | N/A | No | Nhóm hiệu lệnh theo đặc tả R&D |
-| `danger` | Rectangle quanh mặt biển | Class | Macro class | N/A | No | Nhóm cảnh báo nguy hiểm theo đặc tả R&D |
-| `other` | Rectangle quanh mặt biển | Class | Biển xác nhận ngoài ba macro | N/A | No | Catch-all để không ép biển chỉ dẫn/phụ vào sai macro; loại khỏi tập train 3-way nếu downstream yêu cầu |
-| `unknown_sign` | Rectangle quanh mặt biển | Class | Biển xác nhận nhưng chưa phân loại được | N/A | No | Biểu diễn UNKNOWN object-level; luôn bật `needs_review` |
-| `ego_relevance` | Attribute của rectangle | Attribute | `relevant`, `irrelevant`, `unknown` | `__undefined__` | No | Đánh giá thị giác về hành lang ego; default buộc annotator chọn |
-| `visibility` | Attribute của rectangle | Attribute | `readable`, `blurry`, `occluded`, `unknown` | `__undefined__` | No | Mô tả bằng chứng ảnh; default buộc annotator chọn |
-| `needs_review` | Checkbox của rectangle | Attribute | `false` / bật checkbox | `false` | No | Escalate một object cần lead xem |
-| `image_escalate` | Tag ảnh | Image tag | Có / không | Không có tag | N/A | Escalate khi không thể tạo object-level decision |
+| `traffic_sign` | Rectangle ôm sát mép ngoài mặt biển nhìn thấy (không lấy cột, tấm nền, biển phụ) | Class | — | — | No | Mọi mặt biển cùng một kiểu hình học và cùng rule vẽ; khác biệt nằm ở ý nghĩa nên đưa vào attribute |
+| `sign_group` | Attribute của `traffic_sign` | Attribute (select) | `__undefined__`, `prohibitory`, `mandatory`, `danger`, `priority`, `information`, `supplementary`, `unknown` | `__undefined__` | No | Output phân loại chính (guideline mục 4.1, 4.2); không đặt mặc định vì nhóm sai là lỗi nặng nhất, còn `__undefined__` trong export là chưa làm xong |
+| `ego_relevant` | Attribute của `traffic_sign` | Attribute (select) | `relevant`, `not_relevant`, `uncertain` | `relevant` | No | Biển có áp dụng cho làn ego không (mục 4.3); mặc định là trường hợp gặp nhiều nhất để giảm thao tác |
+| `visibility` | Attribute của `traffic_sign` | Attribute (select) | `clear`, `partial`, `poor` | `clear` | No | Mức nhìn thấy mặt biển (mục 4.4); mặc định là trường hợp gặp nhiều nhất |
+| `needs_review` | Attribute của `traffic_sign` | Attribute (checkbox) | bật / tắt | tắt (`false`) | No | Cờ ESCALATE cho một khung, bật theo 6 điều kiện ở mục 7 |
+
+IGNORE không có label riêng: vật ngoài scope (mục 5) thì **không vẽ khung**. Không dùng tag cho cả ảnh vì guideline
+không có quyết định nào ở mức cả ảnh.
 
 ## Class hay attribute
 
-Macro-group là class vì downstream detection cần nhóm đối tượng; `ego_relevance` và `visibility` là thuộc tính độc lập
-của cùng một mặt biển, không tạo class tổ hợp. `needs_review` là cờ QA. `other` giữ biển đã xác nhận ngoài ba nhóm;
-`unknown_sign` giữ object-level UNKNOWN, không phải macro thứ tư hay nhãn train mục tiêu. Hai select dùng
-`__undefined__` để phát hiện quên chọn; không được export khi còn giá trị này.
-
-Mapping nhóm GTSDB phải được kiểm theo class ID/dataset reference và đối chiếu với cách nhóm của R&D. STOP/YIELD được
-xếp vào `prohibitory` theo đặc tả của bài lab; biển ưu tiên/biển chỉ dẫn không thuộc ba nhóm được giữ ở `other` để
-review. Đây là quyết định operational cho bài lab, không phải ánh xạ pháp lý chính thức của Việt Nam.
+- **Một class `traffic_sign`, nhóm là attribute `sign_group`:** các nhóm biển giống nhau về hình học và rule vẽ khung;
+  chỉ khác nghĩa. Để nhóm ở attribute giúp đổi nhóm không phải vẽ lại khung, và `make calib` so được riêng số khung với
+  giá trị nhóm.
+- **`ego_relevant`, `visibility`** là thuộc tính độc lập của cùng một mặt biển; tách thành class sẽ nổ ra
+  7 × 3 × 3 tổ hợp.
+- **Default gây bias:** `ego_relevant = relevant` và `visibility = clear` là giá trị gặp nhiều nhất nhưng nếu người vẽ
+  quên đổi, biển đường nhánh sẽ bị ghi `relevant`, biển mờ bị ghi `clear`. Kiểm soát bằng rule QA: khung
+  `sign_group = unknown` mà `visibility = clear` là lỗi; theo dõi ở calibration, nếu quên đổi nhiều thì chuyển default
+  về `__undefined__`. `sign_group` giữ `__undefined__` để không có nhóm "im lặng".
+- `mutable = false` cho mọi attribute vì task là ảnh tĩnh, không có track.
 
 ## CVAT
 
 - **Phiên bản CVAT** (`make cvat-status`): CVAT 2.75.1 đang chạy tại http://localhost:8080.
-- **Tên task calibration:** `<team>-calib-v1-<annotator>` (ví dụ: `calib-v1-annotatorA`, `calib-v1-annotatorB`).
-- **Guide của task đã dán `02_guideline.md`?** Có; dán toàn bộ `02_guideline.md` vào phần Guide của task trên CVAT để người vẽ tra cứu trực tiếp.
+- **Tên task calibration:** `DeadlineDodgers-calib-v1-<annotator>`, mỗi người một task trên máy mình.
+- **Guide của task đã dán `02_guideline.md`?** Có với task cũ; task tạo lại theo schema mới phải dán lại bản v1 hiện
+  tại (có ảnh ở `guideline_assets/`, tải ảnh lên Guide của CVAT nếu muốn xem trong task).
 - **Nhóm dùng Track hay Shape, vì sao:** Shape rectangle; mọi sample là ảnh tĩnh, không dùng Track.
-- **Schema:** Bốn rectangle labels (`prohibitory`, `mandatory`, `danger`, `other`) và một image tag (`image_escalate`); schema JSON đã parse hợp lệ bằng Python `json.tool` và khớp hoàn toàn bảng ontology.
+- **Schema:** 1 rectangle label `traffic_sign` với 4 attribute như bảng trên; `03_cvat_labels.json` parse hợp lệ bằng
+  `python -m json.tool`.
 
 ## Setup test
 
-**Trạng thái:** Đã kiểm tra setup schema trên CVAT 2.75.1. Khi task được mở, người vẽ truy cập tab Guide để nắm rõ: 4 macro/catch-all classes, vẽ shape rectangle ôm sát mặt biển, bắt buộc chọn hai attributes `ego_relevance` và `visibility` (mặc định `__undefined__`), và sử dụng checkbox `needs_review` hoặc tag `image_escalate` khi cần báo cáo nghi vấn.
+**Trạng thái:** schema đã đổi từ 5 class (`prohibitory`, `mandatory`, `danger`, `other`, `unknown_sign`) + tag
+`image_escalate` sang 1 class `traffic_sign` + 4 attribute cho khớp guideline v1. Setup test cũ không còn giá trị;
+cần một thành viên chưa dựng task mở task mới và trả lời: label gì, tool nào, gán 4 attribute nào, khi nào bật
+`needs_review`. Ghi người test và chỗ vấp vào đây trước khi bắt đầu calibration.
