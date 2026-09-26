@@ -8,10 +8,10 @@
 
 | Thành viên | GitHub | Vai trò chính | File phụ trách |
 |---|---|---|---|
-| Member A | Chưa cung cấp | Topic, downstream contract, guideline owner | `00_team.md`, `01_problem_statement.md`, `02_guideline.md`, `08_revision_log.md` |
-| Member B | Chưa cung cấp | CVAT ontology, task setup, chia dữ liệu | `03_cvat_labels.json`, `03_ontology_and_cvat_setup.md`, `sample_pack.csv`, `09_cvat_export_or_task_reference.txt` |
-| Member C | Chưa cung cấp | Edge-case owner, gold decision owner | `04_edge_cases/edge_case_cards.md`, `04_edge_cases/gold_decisions.csv` |
-| Member D | Chưa cung cấp | QA, calibration coordination, peer handoff | `05_qa_plan.md`, `06_calibration_report.csv`, `07_blind_handoff/` |
+| Đỗ Thanh Long| Chưa cung cấp | Topic, downstream contract, guideline owner | `00_team.md`, `01_problem_statement.md`, `02_guideline.md`, `08_revision_log.md` |
+| Đào Xuân Tùng | Chưa cung cấp | CVAT ontology, task setup, chia dữ liệu | `03_cvat_labels.json`, `03_ontology_and_cvat_setup.md`, `sample_pack.csv`, `09_cvat_export_or_task_reference.txt` |
+| TÔ QUANG HƯNG	 | Chưa cung cấp | Edge-case owner, gold decision owner | `04_edge_cases/edge_case_cards.md`, `04_edge_cases/gold_decisions.csv` |
+| Nguyễn Thái Hà | Chưa cung cấp | QA, calibration coordination, peer handoff | `05_qa_plan.md`, `06_calibration_report.csv`, `07_blind_handoff/` |
 
 Tên thật, GitHub handle, tên nhóm và cặp peer phải được nhóm/Lab Coach xác nhận; không suy đoán từ repo mẫu.
 Calibration cần tối thiểu hai thành viên label độc lập. Chỉ Member C giữ gold trước blind handoff; các thành viên còn lại
