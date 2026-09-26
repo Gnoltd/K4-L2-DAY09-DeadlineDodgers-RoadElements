@@ -1,11 +1,13 @@
 sample_id,decision_id,expected,severity,rationale
-G01,DEC_01,speed_limit_warning,medium,"Hành lang cây xanh dày đặc, cần nhận diện chính xác biển báo giới hạn tốc độ và cảnh báo nguy hiểm trong điều kiện tương phản cao[cite: 31]."
-G02,DEC_02,intersection_signal,high,"Ngã tư phức tạp với hệ thống đèn tín hiệu và xe cộ đông đúc, rủi ro âm tính giả cao tại giao lộ[cite: 32]."
-G03,DEC_03,lane_guidance,low,"Ánh sáng chói lóa trực diện, cần xử lý hiện tượng lóa và nhận diện chuẩn các vạch mũi tên trên mặt đường[cite: 33]."
-G04,DEC_04,speed_limit_highway,critical,"Sương mù dày đặc làm giảm tầm nhìn xa trên cao tốc, rủi ro chí mạng nếu bỏ sót biển giới hạn tốc độ[cite: 34]."
-G05,DEC_05,pedestrian_crossing,medium,"Góc cua hẹp khu dân cư, biển báo dễ bị nhiễu ngữ nghĩa bởi các biển hiệu thương mại xung quanh[cite: 35]."
-G06,DEC_06,speed_limit_suburban,medium,Trục đường ngoại ô có xe buýt lớn che khuất một phần tầm nhìn không gian phía bên trái[cite: 36].
-G07,DEC_07,construction_warning,critical,Khu vực thi công cầu vượt với giàn giáo phức tạp và mặt đường ẩm ướt tạo phản xạ sáng mạnh[cite: 37].
-G08,DEC_08,underpass_lighting,high,"Gầm cầu bê tông tạo vùng tối cục bộ, thử thách lớn đối với dải động của mô hình nhận diện[cite: 38]."
-G09,DEC_09,directional_signs,medium,Cụm bảng chỉ dẫn nhiều tầng tại vòng xuyến yêu cầu độ phân giải không gian cao để bóc tách văn bản[cite: 39].
-G10,DEC_10,urban_curve_sign,medium,Phố cổ với mật độ kiến trúc nhà ở dày đặc tạo ra nhiều cạnh góc vuông gây nhiễu bộ trích xuất biên[cite: 40].
+GTS18,d1,macro_count: prohibitory=1; danger=1,major,Image shows one circular speed-limit sign and one triangular warning sign on the same post; keep separate boxes and map by function.
+GTS18,d2,ego_relevance=unknown when the image does not establish which route the ego follows,major,This is a single still image without route metadata; do not infer authority from proximity.
+GTS18,d3,geometry: two separate tight rectangles around the circular and triangular sign faces; exclude pole and private notice,minor,The two traffic-sign faces are physically distinct even though they share a post.
+GTS26,d1,class=danger for the distant upward-pointing triangular warning sign,critical,The small warning sign is visible on full-resolution inspection; do not leave this image empty.
+GTS26,d2,geometry: tight rectangle around the visible triangle face only,minor,Exclude the post; draw the visible face rather than extending a box to guessed hidden pixels.
+GTS27,d1,class=danger for the triangular snow-warning sign; visibility=readable,major,The warning symbol is distinguishable in the provided image; low light alone does not make the sign blurry.
+GTS23,d1,class=prohibitory for the left STOP sign,critical,STOP is assigned to the prohibitory macro by this R&D lab mapping; this is not a statement of Vietnamese legal taxonomy.
+GTS23,d2,class=prohibitory for the right STOP sign,critical,The second STOP face is a separate instance; missing either is a critical completeness error in this exercise.
+GTS23,d3,class=mandatory for the blue circular directional-arrow sign; keep separate from both STOP signs,major,The arrow is a distinct mandatory sign face; do not merge with nearby supports or STOP signs.
+GTS23,d4,geometry: separate tight rectangles around sign faces; exclude posts and direction panels,minor,Box each physical face independently; direction panels are separate traffic signs and belong to other if annotated.
+GTS09,d1,class=other for the blue pedestrian-crossing information signs and direction panels,major,These are confirmed traffic signs outside the three R&D macro-groups; do not omit them or force them into danger.
+GTS09,d2,class=mandatory for the blue circular keep-right arrow; ego_relevance=unknown without route metadata,major,The mandatory sign must remain distinct; a still image alone does not establish whether it governs the ego path.
