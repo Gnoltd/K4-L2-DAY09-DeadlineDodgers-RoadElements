@@ -1,13 +1,16 @@
 sample_id,decision_id,expected,severity,rationale
-GTS18,d1,macro_count: prohibitory=1; danger=1,major,Image shows one circular speed-limit sign and one triangular warning sign on the same post; keep separate boxes and map by function.
-GTS18,d2,ego_relevance=unknown when the image does not establish which route the ego follows,major,This is a single still image without route metadata; do not infer authority from proximity.
-GTS18,d3,geometry: two separate tight rectangles around the circular and triangular sign faces; exclude pole and private notice,minor,The two traffic-sign faces are physically distinct even though they share a post.
-GTS26,d1,class=danger for the distant upward-pointing triangular warning sign,critical,The small warning sign is visible on full-resolution inspection; do not leave this image empty.
-GTS26,d2,geometry: tight rectangle around the visible triangle face only,minor,Exclude the post; draw the visible face rather than extending a box to guessed hidden pixels.
-GTS27,d1,class=danger for the triangular snow-warning sign; visibility=readable,major,The warning symbol is distinguishable in the provided image; low light alone does not make the sign blurry.
-GTS23,d1,class=prohibitory for the left STOP sign,critical,STOP is assigned to the prohibitory macro by this R&D lab mapping; this is not a statement of Vietnamese legal taxonomy.
-GTS23,d2,class=prohibitory for the right STOP sign,critical,The second STOP face is a separate instance; missing either is a critical completeness error in this exercise.
-GTS23,d3,class=mandatory for the blue circular directional-arrow sign; keep separate from both STOP signs,major,The arrow is a distinct mandatory sign face; do not merge with nearby supports or STOP signs.
-GTS23,d4,geometry: separate tight rectangles around sign faces; exclude posts and direction panels,minor,Box each physical face independently; direction panels are separate traffic signs and belong to other if annotated.
-GTS09,d1,class=other for the blue pedestrian-crossing information signs and direction panels,major,These are confirmed traffic signs outside the three R&D macro-groups; do not omit them or force them into danger.
-GTS09,d2,class=mandatory for the blue circular keep-right arrow; ego_relevance=unknown without route metadata,major,The mandatory sign must remain distinct; a still image alone does not establish whether it governs the ego path.
+GTS18,d1,traffic_sign x2 trên cùng cột: sign_group=danger (tam giác đường cong) và sign_group=prohibitory (tròn viền đỏ 30),major,Hai mặt biển khác nhóm trên một cột phải tách thành hai khung (guideline mục 2; 4.2 dòng 3 và 5)
+GTS18,d2,geometry: hai khung riêng ôm sát từng mặt biển; không lấy cột; không vẽ tấm thông báo trắng trên hàng rào bên phải,minor,Khung chỉ ôm mặt biển (mục 3); tấm thông báo tư nhân không phải biển giao thông (mục 5)
+GTS18,d3,ego_relevant=relevant cho cả hai biển,major,Biển đặt bên phải đường ego và không có bằng chứng 4.3 dòng 1–7 nên theo dòng 8 là relevant; không được suy thành uncertain chỉ vì là ảnh tĩnh
+GTS26,d1,đúng 1 khung traffic_sign cho tam giác nhỏ ở xa giữa ảnh; không được để trống ảnh,critical,Biển cảnh báo nhìn thấy ở cỡ gốc (khoảng 20 px); bỏ sót là lỗi completeness nghiêm trọng nhất của bài (mục 10.1)
+GTS26,d2,sign_group=danger cho tam giác đó (unknown + needs_review cũng chấp nhận nếu không thấy rõ đỉnh hướng lên),major,Ở cỡ gốc thấy tam giác đỉnh hướng lên viền đỏ (4.2 dòng 5); guideline cho phép unknown khi không đủ bằng chứng (mục 6)
+GTS27,d1,sign_group=danger; ego_relevant=relevant,major,Tam giác đỉnh hướng lên viền đỏ (biển băng tuyết) bên phải đường ego; hình dạng còn rõ dù ngược sáng (4.2 dòng 5; 4.3 dòng 8)
+GTS27,d2,visibility=poor,minor,Ảnh ngược sáng làm tối mặt biển; guideline mục 6: lóa / ngược sáng → visibility=poor
+GTS27,d3,tổng 1 khung trong ảnh; không vẽ cọc tiêu trắng bên đường,minor,Cọc tiêu không phải biển (mục 5)
+GTS23,d1,sign_group=priority cho CẢ HAI biển STOP (trái và phải),critical,Bát giác → priority (4.2 dòng 2); xếp STOP vào nhóm khác làm hệ thống không biết phải dừng tại nút giao
+GTS23,d2,cả hai biển STOP có ego_relevant=relevant (không được not_relevant),critical,Hai biển STOP đặt hai bên đường ego ngay trước nút giao; ghi not_relevant cho biển dừng đang áp dụng là lỗi critical (01_problem_statement câu 3)
+GTS23,d3,sign_group=mandatory cho biển tròn xanh mũi tên chéo bên trái; khung riêng,major,Tròn nền xanh ký hiệu trắng (4.2 dòng 4)
+GTS23,d4,tổng 3 khung; không vẽ tấm chỉ đường xanh/vàng và mặt sau biển tròn tối ở giữa,major,Tấm chỉ hướng có tên nơi không vẽ (4.2 dòng 7); mặt sau biển không vẽ (mục 5)
+GTS09,d1,không vẽ 6 tấm chỉ đường xếp chồng trên cột giữa và tấm tên đường,major,Biển chỉ hướng / địa danh là IGNORE (4.2 dòng 7; mục 5)
+GTS09,d2,sign_group=information cho mỗi biển vuông xanh người đi bộ (2 khung),major,Vuông xanh có ký hiệu người đi bộ → information (4.2 dòng 6); tam giác mới là danger (mục 10.4)
+GTS09,d3,sign_group=mandatory cho biển tròn xanh mũi tên chéo dưới biển người đi bộ bên trái,major,Tròn nền xanh ký hiệu trắng (4.2 dòng 4)
