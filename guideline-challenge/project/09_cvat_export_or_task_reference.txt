@@ -1,8 +1,12 @@
-CVAT task reference — đã hoàn thiện cấu hình chuẩn cho team.
+CVAT task reference — trạng thái cấu hình và export của team.
 
-CVAT version: 2.75.1 (chạy tại http://localhost:8080)
-Task calibration (tên, id): DeadlineDodgers-calib-v1 (Task ID trên local CVAT)
+CVAT version: 2.75.1 (endpoint http://localhost:8080 đã xác nhận reachable)
+Task calibration (tên, id): DeadlineDodgers-calib-v1 (task ID chưa được ghi lại)
 Task bản cuối theo guideline v3 (tên, id) hoặc lý do không có: Chưa có (sẽ tạo sau khi hoàn tất calibration và cập nhật guideline v3)
-File export đã nộp (đường dẫn trong repo): project/06_calibration_exports/
+File export đã nộp (đường dẫn trong repo): Chưa có; project/06_calibration_exports/ chỉ có .gitkeep.
 Guideline version dán trong Guide của task: v1 (cho calibration), cập nhật v2/v3 theo tiến độ
-Ghi chú cho người tiếp nhận: Task calibration dùng ảnh từ build/calibration/ (6 ảnh GTS). Nhãn import từ project/03_cvat_labels.json qua tab Raw. Hướng dẫn chi tiết đã dán trong Guide.
+Ghi chú cho người tiếp nhận: build/calibration/ hiện có GTS01, GTS03, GTS04, GTS08, GTS10, GTS11. Task được ghi nhận trước khi cập nhật schema/split; cần đồng bộ task và Guide bằng file hiện tại trước khi label/export.
+
+Setup test độc lập: Chưa có bằng chứng người thử mở task sau cập nhật; ghi kết quả sau khi thực hiện.
+
+Lưu ý cập nhật 2026-09-26: task reference này được ghi trước lần thay đổi ontology và sample split. Chưa xác nhận task trên CVAT khớp schema năm rectangle labels và ảnh hiện tại; không dùng task/export cũ làm bằng chứng calibration cho đến khi đồng bộ hoặc tạo task mới.

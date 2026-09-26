@@ -7,16 +7,16 @@ Tài liệu này chỉ ghi những gì đã có bằng chứng trong repo. Các 
 
 Guideline → Calibration → Production → Self-QC → Review → Rework → Quality Gate.
 
-- **Ai review, review bao nhiêu:** `CHƯA CHỐT`. Cần ghi tên/role reviewer và số lượng ảnh hoặc tỷ lệ ảnh được review.
-- **Chọn sample theo rule nào:** lấy mẫu phải bao phủ các nhóm rủi ro đã có trong guideline/edge-case library: critical,
-  small-far, occlusion/truncation, ambiguity/escalation, supplementary, và ranh giới LABEL/IGNORE. Tỷ lệ hoặc số lượng
-  cụ thể: `CHƯA CHỐT`.
-- **Issue được ghi ở đâu, đóng thế nào:** `CHƯA CHỐT` nơi lưu issue và người đóng issue. Mỗi issue tối thiểu cần có
-  `sample_id`, mô tả decision/geometry sai, severity, nguyên nhân (`guideline gap` / `data ambiguity` /
-  `execution error`), action, người xử lý và trạng thái đóng.
-- **Khi phát hiện guideline gap thì update và version ra sao:** ghi bằng chứng vào `08_revision_log.md`; guideline v1 là
-  bản nháp đầu, v2 là sau calibration nội bộ, v3 là sau blind handoff. Mỗi lần đổi `Version` phải có dòng revision
-  kèm lý do và bằng chứng.
+- **Ai review, review bao nhiêu:** Member D điều phối QA; Member A hoặc C review độc lập, không tự review annotation của
+  mình. Tự kiểm 100% ảnh; reviewer kiểm 100% ảnh/tag critical, mọi object `needs_review=true`, và 20% ảnh còn lại
+  (làm tròn lên, tối thiểu 5 ảnh mỗi batch).
+- **Chọn sample:** lấy mẫu ngẫu nhiên có seed ghi trong issue log, sau đó bảo đảm có critical, small/far,
+  occlusion/truncation, ambiguity/escalation, `other`, và ranh giới LABEL/IGNORE. Nếu risk strata chưa xuất hiện trong
+  phần ngẫu nhiên, thêm ảnh để đủ coverage.
+- **Issue:** ghi trong `project/10_qa_issue_log.csv`; mỗi issue có sample, decision/geometry, severity, nguyên nhân,
+  action, owner, trạng thái và bằng chứng. Reviewer chỉ đóng issue sau khi sửa được kiểm lại độc lập.
+- **Guideline gap:** ghi bằng chứng vào `06_calibration_report.csv` hoặc `07_blind_handoff/peer_feedback.md`; đổi
+  guideline v1 sau nháp, v2 sau calibration thật, v3 sau blind handoff thật; mỗi lần ghi revision tương ứng.
 
 ## Defect severity
 
@@ -25,9 +25,10 @@ downstream contract được chốt khác thì phải cập nhật trước khi 
 
 | Severity | Định nghĩa cho project này | Ví dụ | Action mặc định |
 |---|---|---|---|
-| Critical | Bỏ sót hoặc gán sai một quyết định có rủi ro an toàn cao, đặc biệt biển quy định quyền ưu tiên; hoặc lỗi làm mất một decision critical trong gold/blind | Không vẽ hoặc gán sai biển STOP/nhường đường trong các case critical như EC01/EC03 | Dừng gate; ghi issue, xác định nguyên nhân, rework và kiểm tra lại toàn bộ mẫu cùng loại |
-| Major | Sai inclusion/exclusion, `sign_group`, `needs_review` hoặc geometry theo cách làm thay đổi kết quả chấm/đầu ra | Vẽ biển chỉ hướng; bỏ tấm `supplementary`; nhầm `danger` với `priority`; box không theo rule | Rework mẫu lỗi và rà soát các mẫu cùng rule; chưa PASS nếu còn lỗi major chưa đóng |
+| Critical | Bỏ sót hoặc gán sai một quyết định có rủi ro cao trong downstream contract, hoặc lỗi làm mất một decision critical trong gold/blind | Bỏ sót STOP trong blind, hoặc gán biển của hướng đối diện thành `relevant` khi evidence xác định `irrelevant` | Dừng gate; ghi issue, xác định nguyên nhân, rework và kiểm tra lại toàn bộ mẫu cùng rule |
+| Major | Sai inclusion/exclusion, macro class, attributes hoặc geometry làm thay đổi kết quả chấm/đầu ra | Bỏ bảng phụ là biển độc lập; nhầm `danger` với `prohibitory`; box gộp nhiều mặt biển | Rework mẫu lỗi và rà soát các mẫu cùng rule; chưa PASS nếu còn lỗi major chưa đóng |
 | Minor | Lỗi không làm thay đổi decision chính nhưng vẫn vi phạm quy ước annotation hoặc làm giảm khả năng kiểm tra | Sai thao tác/ghi chú hoặc sai nhỏ không ảnh hưởng nhóm; ví dụ cụ thể và ngưỡng: `CHƯA CHỐT` | Sửa trong vòng QC; theo dõi để xem có lặp lại thành lỗi major không |
+| Minor | Lỗi không làm thay đổi decision chính nhưng giảm độ nhất quán hình học/metadata | Lệch box nhỏ nhưng IoU vẫn đạt ngưỡng, ghi chú thiếu nhưng object/class đúng | Sửa trong QC; theo dõi lỗi lặp |
 | Question | Điểm chưa đủ bằng chứng để phân loại là lỗi annotation; cần xác minh rule, dữ liệu hoặc downstream contract | Không rõ vật là biển thật hay vật giống biển; guideline chưa nói tới và cần escalation | Ghi lại, chưa tự sửa gold; owner quyết định là guideline gap, data ambiguity hoặc execution error |
 
 ## Metrics
@@ -38,42 +39,42 @@ chưa được nhóm chốt.
 | Metric | Cách tính | Vì sao phù hợp với bài toán |
 |---|---|---|
 | Inclusion / exclusion agreement | Số decision đúng về có vẽ/không vẽ trên tổng decision được review | Bắt lỗi bỏ sót biển, vẽ biển chỉ hướng, mặt sau, quảng cáo và vật giống biển |
-| `sign_group` accuracy | Số object có `sign_group` đúng trên tổng object phải gán nhóm | Đây là output phân loại chính của guideline |
+| Macro-class accuracy | Số object có macro class đúng trên tổng object xác nhận thuộc ba macro | Đây là output phân loại chính của guideline |
 | `needs_review` compliance | Số object tuân thủ đúng điều kiện bật/tắt `needs_review` trên tổng object được review | Kiểm tra các rule UNKNOWN/ESCALATE và tránh bật tuỳ tiện |
 | Geometry pass rate | Số box đạt rule Rectangle và tolerance đã ghi trong guideline trên tổng box được review | Kiểm tra box ôm phần mặt biển nhìn thấy, không lấy cột/tấm nền/biển phụ |
-| Supplementary separation rate | Số trường hợp biển chính và biển phụ được tách đúng trên tổng trường hợp có biển phụ | Biển phụ là một annotation riêng và có ý nghĩa downstream |
+| Attribute completeness | Số object không còn select `__undefined__` trên tổng object đã label | Ngăn thiếu `ego_relevance`/`visibility` khi export |
 | Critical defect escape rate | Số lỗi Critical phát hiện sau bước review hoặc trong blind trên tổng số cơ hội Critical | Bắt lỗi an toàn cao lọt qua QA; edge-case library đã xác định các case critical cần theo dõi |
 
-**Metric high-risk:** critical defect escape rate và inclusion/exclusion agreement trên các mẫu critical. Cách tính đã xác
-định ở trên; threshold số cụ thể: `CHƯA CHỐT`.
+**Metric high-risk:** critical defect escape rate và inclusion/exclusion agreement trên các mẫu critical. Đếm theo
+decision, không gộp theo ảnh; một critical miss bất kỳ làm batch không PASS.
 
 ## Quality gate
 
-Threshold là đề xuất của nhóm, không phải chuẩn ngành. Repo chưa có dữ liệu để chốt các con số dưới đây; không tự điền
-threshold khi chưa có reviewer, cỡ mẫu và downstream contract.
+Threshold là đề xuất cho bài lab nhỏ, không phải chuẩn ngành hay deployment gate.
 
 ```text
 PASS if:
-  - Tất cả sample QA đã được review theo sampling rule đã chốt.
-  - Không còn Critical defect chưa đóng.
-  - Các metric đã tính đủ và đạt threshold đã được nhóm chốt.
-  - Các issue còn lại có severity, nguyên nhân, action và trạng thái đóng.
-  - Nếu có guideline gap, đã cập nhật guideline + 08_revision_log.md đúng version/evidence.
+  - Tất cả sample QA theo risk-stratified sampling đã được review.
+  - Critical defect escape rate = 0; không có critical issue chưa đóng.
+  - Macro-class accuracy >= 0.95; geometry pass rate (IoU >= 0.50) >= 0.90.
+  - Attribute completeness = 1.00; `needs_review` compliance >= 0.95.
+  - Mọi issue có severity, diagnosis, action, evidence và trạng thái đóng.
+  - Guideline gap đã được cập nhật và ghi version/evidence trong revision log.
 
 REWORK if:
   - Có Major defect chưa đóng; hoặc
-  - Một metric dưới threshold; hoặc
-  - Sampling/review record thiếu khiến kết quả chưa chứng minh được chất lượng.
+  - Một metric dưới threshold nhưng không có Critical defect chưa xử lý; hoặc
+  - Thiếu sampling/review record.
 
 REJECT / ESCALATE if:
   - Có Critical defect chưa có quyết định xử lý; hoặc
-  - Có ambiguity mà guideline và escalation path chưa đủ để quyết định; hoặc
-  - Không xác định được gold/reviewer/evidence để kiểm tra lại.
+  - Có ambiguity ảnh hưởng macro/ego relevance mà không có đường escalation; hoặc
+  - Gold/reviewer/evidence không truy xuất được.
 ```
 
-**Các thông tin bắt buộc phải chốt trước khi chạy gate:** reviewer, cỡ/tỷ lệ sample, nơi quản lý issue, threshold từng
-metric, downstream contract và escalation owner. Hiện các thông tin này chưa có trong repo.
+**Các thông tin cần điền trước khi chạy gate:** tên thật của reviewer và seed lấy mẫu. Tỷ lệ, ngưỡng và nơi ghi issue là
+đề xuất của nhóm, cần được thống nhất trong buổi calibration trước khi áp dụng.
 
-**Trade-off:** threshold càng chặt và sample càng rộng thì chi phí review/rework tăng, nhưng giảm nguy cơ bỏ sót lỗi
-Critical và lỗi guideline. Chưa thể định lượng trade-off cho project này vì chưa có cỡ mẫu, reviewer và downstream contract
-được chốt.
+**Trade-off:** kiểm toàn bộ critical và object bị đánh dấu tốn reviewer time, nhưng giảm nguy cơ để lỗi rủi ro cao lọt
+qua; 20% random sample giữ chi phí vừa phải cho các object còn lại. Với dataset 28 ảnh, đây là screening cho lớp học,
+không phải ước lượng thống kê độ tin cậy sản xuất.
