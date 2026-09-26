@@ -1,6 +1,6 @@
 # Annotation guideline — Gắn nhãn biển báo giao thông theo nhóm chức năng
 
-**Version:** v2
+**Version:** v3
 
 <!--
 v0 = chưa có bản nháp. Đổi dòng Version ở trên thành v1 khi xong bản nháp đầu, v2 sau calibration, v3 sau blind
@@ -97,7 +97,8 @@ gom theo chức năng để không phụ thuộc quốc gia.
    đặt độc lập ở đường cong → `supplementary`.
 2. Hình **bát giác**, tam giác **đỉnh hướng xuống**, hoặc **hình thoi** → `priority`.
 3. Có **viền đỏ tròn**, hoặc là **tròn trắng có vạch chéo đen/xám** → `prohibitory` (viền đỏ thắng nền xanh). Tấm chia
-   làn chứa vòng tròn viền đỏ cũng vào đây.
+   làn chứa vòng tròn viền đỏ cũng vào đây. Dòng này **chỉ áp cho hình tròn**: biển STOP bát giác đỏ và tam giác
+   nhường đường viền đỏ đã dừng ở dòng 2 (`priority`), dù có nhiều màu đỏ.
 4. **Nền xanh** (tròn, hoặc chữ nhật trong danh sách `mandatory` ở 4.1), kể cả khi có **vạch chéo đỏ** (hết hiệu lệnh)
    → `mandatory`. Biển bắt đầu/hết khu dân cư cũng vào đây dù có chữ tên nơi.
 5. Tam giác **đỉnh hướng lên**, viền đỏ (nền trắng hoặc vàng) → `danger`.
@@ -108,6 +109,9 @@ gom theo chức năng để không phụ thuộc quốc gia.
    trắng khác → `mandatory`; nền vàng chữ đen → `danger`; nền xanh chữ trắng → `information` nếu không phải chỉ hướng.
 9. Không khớp dòng nào ở trên, hoặc nhìn không rõ hình/màu → `unknown` và bật `needs_review`.
 
+**Ba biển màu đỏ dễ nhầm:** bát giác đỏ (STOP) → `priority`; tam giác đỉnh xuống viền đỏ (nhường đường) →
+`priority`; tròn viền đỏ → `prohibitory`. Đếm cạnh trước khi nhìn màu.
+
 Dùng **hình dạng trước, màu sau**. Màu dễ sai khi lóa, tối, phai; hình dạng ổn định hơn. Hai tấm chữ nhật xanh khó
 phân biệt `mandatory` với `information` (ví dụ R.411 hướng đi từng làn và I.407 đường một chiều): phân vân thì chọn
 nhóm nghiêng tới nhất và bật `needs_review`.
@@ -116,6 +120,11 @@ nhóm nghiêng tới nhất và bật `needs_review`.
 
 **Ego** là xe gắn camera. **Làn ego** là làn nằm dưới giữa mép dưới ảnh (camera đặt giữa xe), xác định bằng vạch kẻ
 đường hai bên điểm đó. **Đường đi của ego** là làn ego đi thẳng tới trước; bài này không biết ego sẽ rẽ hay không.
+
+**Giả định cố định:** ảnh tĩnh không cho biết ego rẽ hay đi thẳng, nên **luôn giả định ego đi thẳng theo làn hiện
+tại**. Biển đặt trên đường đi thẳng đó (bên phải, bên trái, phía trên, trên đảo ngay trước ego) → xét theo bảng dưới.
+Biển chỉ nằm trên nhánh rẽ (góc đường nhánh, quay mặt vào nhánh) → `not_relevant` nếu thấy rõ nó quay vào nhánh,
+không thì `uncertain` + `needs_review`. Không tự đoán ego sẽ rẽ vào nhánh nào.
 
 Nguyên tắc gốc (QCVN 41:2024 Điều 15): biển nguy hiểm và biển chỉ dẫn có hiệu lực trên **mọi làn của chiều xe chạy**;
 biển cấm và biển hiệu lệnh áp dụng cho mọi làn **hoặc chỉ một số làn** nếu biển cho biết như vậy. Do đó: biển thuộc
@@ -186,6 +195,7 @@ nhánh, ở phía bên kia đường, biển tạm công trường (trên giá c
 | Tình huống | Cách làm |
 |---|---|
 | Chỉ là một **chấm màu**, không nhận ra được là tấm biển (thường cạnh dưới khoảng 12 px) | **Không vẽ** |
+| Không chắc có dưới 12 px không | Vẽ thử khung ôm vật đó, xem kích thước khung trong CVAT (rê chuột / bảng thông tin object); cạnh ngắn dưới 12 px thì xoá khung. Đo trên ảnh gốc, không ước lượng bằng mắt khi đang zoom |
 | Nhận ra là **tấm biển**, thấy rõ hình và màu | Vẽ khung, chọn nhóm theo 4.2, `visibility = clear` |
 | Nhận ra là tấm biển nhưng **không rõ hình hoặc màu** (nhỏ, xa, mờ) | Vẽ khung, `unknown`, `visibility = poor`, bật `needs_review` |
 | **Bị che dưới khoảng 1/4** | Vẽ khung phần thấy, chọn nhóm, `visibility = clear` |
@@ -242,7 +252,7 @@ Ví dụ dùng ảnh split `example` và `calibration` (không dùng ảnh blind
 |---|---|---|---|
 | GTS06 | Biển tròn viền đỏ "30" bên phải đường ego, **hai tấm phụ** bên dưới (mũi tên phạm vi + khoảng cách; giờ áp dụng); đèn giao thông bị cắt ở mép trên phải | 3 khung riêng: `prohibitory`, `supplementary`, `supplementary`; cả ba `relevant`, `clear`. Khung biển chính không lấy tấm phụ và cột. Đèn: không vẽ | 2, 3, 4.2 (dòng 1, 3), 4.3 (biển phụ theo biển chính), 5 |
 | GTS05 | Góc phố: biển vuông xanh người đi bộ và biển tròn "30" ở góc đường nhánh bên trái; hai tấm xám trên cột bên phải là **mặt sau** biển; biển quán cà phê, biển tên phố | 2 khung: `information` và `prohibitory`, cả hai `uncertain` (không rõ ego đi thẳng hay rẽ vào đường nhánh), `clear`, bật `needs_review`. Mặt sau biển, biển quán, biển tên phố: không vẽ | 4.2 (dòng 3, 6), 4.3 (dòng 9), 5 |
-| GTS04 | Cao tốc có sương mù; cặp biển "120" + cấm xe tải vượt ở **cả** dải phân cách bên trái và lề phải; biển chỉ hướng xanh phía trên | 4 khung `prohibitory`, tất cả `relevant`, `clear`. Biển chỉ hướng: không vẽ | 2, 4.2 (dòng 3, 7), 4.3 (dòng 8) |
+| GTS04 | Cao tốc có sương mù; cặp biển "120" + cấm xe tải vượt ở **cả** dải phân cách bên trái và lề phải; biển chỉ hướng xanh phía trên | 4 khung `prohibitory`, tất cả `relevant`, `clear`. Hai tấm chỉ hướng xanh (tên nơi "Bochum", số lối ra, "900 m"): **không vẽ**, dù to, rõ và nền xanh | 2, 4.2 (dòng 3, 7), 4.3 (dòng 8) |
 | GTS03 | Ngã tư phố: hình thoi vàng; tam giác người đi bộ; biển tròn "20" kèm tấm mũi tên rẽ bên dưới; biển tròn xanh mũi tên phía trái | `priority` (hình thoi), `danger` (tam giác), `prohibitory` ("20"), `supplementary` (tấm mũi tên, khung riêng), `mandatory` (tròn xanh). Không dồn biển lạ vào một nhóm chung | 2, 4.2 (dòng 1–5) |
 | GTS07 | Cầu đang thi công, đường ướt; một chấm tròn đỏ khoảng 10 px ở giữa ảnh; hai tấm vuông nhỏ bên trái, nhận ra là tấm biển nhưng không đọc được; rào chắn sọc đỏ trắng bên phải | Chấm đỏ: không vẽ. Hai tấm vuông: mỗi tấm một khung `unknown`, `uncertain`, `poor`, bật `needs_review`. Rào chắn: không vẽ | 5, 6, 4.4 |
 
@@ -252,7 +262,7 @@ Ví dụ dùng ảnh split `example` và `calibration` (không dùng ảnh blind
 
 ![GTS07 — biển rất nhỏ và vật không phải biển](guideline_assets/ex_GTS07_bien_nho.jpg)
 
-![GTS04 — biển nhắc lại ở cả hai bên đường](guideline_assets/ex_GTS04_bien_nhac_lai.jpg)
+![GTS04 — biển nhắc lại ở cả hai bên đường, tấm chỉ hướng không vẽ](guideline_assets/ex_GTS04_bien_nhac_lai.jpg)
 
 Các tình huống chưa có ảnh ví dụ (nhường đường, biển dừng, biển chỉ hướng xếp chồng, biển bị che) dùng bảng 4.1,
 thứ tự 4.2 và hai sơ đồ ở mục 4.
@@ -279,6 +289,10 @@ thứ tự 4.2 và hai sơ đồ ở mục 4.
 14. **Đánh `not_relevant` cho biển bên trái đường.** Biển có thể đặt bổ sung bên trái hoặc trên cao cho cùng chiều
     (QCVN 41:2024 Điều 16.2); vị trí trái/phải một mình không đủ để kết luận.
 15. **Bỏ sót biển nhắc lại bên trái** trên đường đôi / cao tốc (GTS04): quét cả dải phân cách giữa, không chỉ lề phải.
+16. **Chọn `prohibitory` cho biển STOP vì biển màu đỏ.** Bát giác (STOP) và tam giác đỉnh xuống (nhường đường) luôn là
+    `priority` (4.2 dòng 2). Đây là lỗi critical: hệ thống sẽ không biết phải dừng.
+17. **Gọi cụm biển chỉ hướng xếp chồng là `information`.** Tấm có tên nơi, số đường, khoảng cách tới nơi → không vẽ,
+    kể cả khi nền xanh và rất to (GTS04). `information` chỉ dành cho tấm có **ký hiệu** trong danh sách 4.1.
 
 ## Self-QC trước khi export
 
@@ -288,5 +302,7 @@ Kiểm từng ảnh trước khi export; còn sai một dòng thì sửa rồi m
 - [ ] Khung `sign_group = unknown` thì `visibility` là `partial` hoặc `poor`, và `needs_review` bật.
 - [ ] Khung `ego_relevant = uncertain` thì `needs_review` bật.
 - [ ] Biển đường nhánh, biển bị che, biển mờ đã đổi khỏi mặc định `relevant` / `clear` nếu cần (4.3, 4.4).
+- [ ] Ảnh ngược sáng, lóa, ban đêm, sương mù dày: mọi khung bị ảnh hưởng có `visibility` là `poor`, không để `clear`.
+- [ ] Mọi biển bát giác / tam giác đỉnh xuống có `sign_group = priority`.
 - [ ] Đã quét cả lề phải, dải phân cách / lề trái, phía trên đường và phía xa ở cỡ gốc.
 - [ ] Biển phụ là khung riêng; khung biển chính không lấy cột hay tấm phụ.

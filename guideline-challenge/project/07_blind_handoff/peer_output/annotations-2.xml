@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<annotations>
+  <version>1.1</version>
+  <meta>
+    <task>
+      <id>11</id>
+      <name>peer-test-signs</name>
+      <size>5</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker></bugtracker>
+      <created>2026-09-26 07:28:05.470530+00:00</created>
+      <updated>2026-09-26 07:36:44.766942+00:00</updated>
+      <subset>default</subset>
+      <start_frame>0</start_frame>
+      <stop_frame>4</stop_frame>
+      <frame_filter></frame_filter>
+      <segments>
+        <segment>
+          <id>11</id>
+          <start>0</start>
+          <stop>4</stop>
+          <url>http://localhost:8080/api/tasks/11/dataset/export/api/jobs/11</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>26ai.anbk</username>
+        <email>26ai.anbk@vinuni.edu.vn</email>
+      </owner>
+      <assignee></assignee>
+      <labels>
+        <label>
+          <name>traffic_sign</name>
+          <color>#D93A32</color>
+          <type>rectangle</type>
+          <attributes>
+            <attribute>
+              <name>sign_group</name>
+              <mutable>False</mutable>
+              <input_type>select</input_type>
+              <default_value>__undefined__</default_value>
+              <values>__undefined__
+prohibitory
+mandatory
+danger
+priority
+information
+supplementary
+unknown</values>
+            </attribute>
+            <attribute>
+              <name>ego_relevant</name>
+              <mutable>False</mutable>
+              <input_type>select</input_type>
+              <default_value>relevant</default_value>
+              <values>relevant
+not_relevant
+uncertain</values>
+            </attribute>
+            <attribute>
+              <name>visibility</name>
+              <mutable>False</mutable>
+              <input_type>select</input_type>
+              <default_value>clear</default_value>
+              <values>clear
+partial
+poor</values>
+            </attribute>
+            <attribute>
+              <name>needs_review</name>
+              <mutable>False</mutable>
+              <input_type>checkbox</input_type>
+              <default_value>false</default_value>
+              <values>false</values>
+            </attribute>
+          </attributes>
+        </label>
+      </labels>
+    </task>
+    <dumped>2026-09-26 07:37:34.225861+00:00</dumped>
+  </meta>
+  <image id="0" name="GTS09.png" width="1360" height="800">
+    <box label="traffic_sign" source="manual" occluded="0" xtl="384.28" ytl="511.31" xbr="429.68" ybr="557.57" z_order="0">
+      <attribute name="sign_group">information</attribute>
+      <attribute name="ego_relevant">relevant</attribute>
+      <attribute name="visibility">clear</attribute>
+      <attribute name="needs_review">false</attribute>
+    </box>
+    <box label="traffic_sign" source="manual" occluded="0" xtl="391.09" ytl="612.49" xbr="425.08" ybr="649.39" z_order="0">
+      <attribute name="sign_group">mandatory</attribute>
+      <attribute name="ego_relevant">relevant</attribute>
+      <attribute name="visibility">clear</attribute>
+      <attribute name="needs_review">false</attribute>
+    </box>
+    <box label="traffic_sign" source="manual" occluded="0" xtl="352.98" ytl="547.70" xbr="368.90" ybr="564.70" z_order="0">
+      <attribute name="sign_group">mandatory</attribute>
+      <attribute name="ego_relevant">relevant</attribute>
+      <attribute name="visibility">poor</attribute>
+      <attribute name="needs_review">false</attribute>
+    </box>
+    <box label="traffic_sign" source="manual" occluded="0" xtl="1022.06" ytl="460.50" xbr="1074.72" ybr="517.70" z_order="0">
+      <attribute name="sign_group">information</attribute>
+      <attribute name="ego_relevant">relevant</attribute>
+      <attribute name="visibility">clear</attribute>
+      <attribute name="needs_review">false</attribute>
+    </box>
+  </image>
+  <image id="1" name="GTS18.png" width="1360" height="800">
+    <box label="traffic_sign" source="manual" occluded="0" xtl="710.77" ytl="265.69" xbr="780.35" ybr="341.55" z_order="0">
+      <attribute name="sign_group">danger</attribute>
+      <attribute name="ego_relevant">relevant</attribute>
+      <attribute name="visibility">clear</attribute>
+      <attribute name="needs_review">false</attribute>
+    </box>
+    <box label="traffic_sign" source="manual" occluded="0" xtl="720.62" ytl="340.95" xbr="771.99" ybr="398.89" z_order="0">
+      <attribute name="sign_group">prohibitory</attribute>
+      <attribute name="ego_relevant">relevant</attribute>
+      <attribute name="visibility">clear</attribute>
+      <attribute name="needs_review">false</attribute>
+    </box>
+  </image>
+  <image id="2" name="GTS23.png" width="1360" height="800">
+    <box label="traffic_sign" source="manual" occluded="0" xtl="439.67" ytl="402.11" xbr="488.21" ybr="453.24" z_order="0">
+      <attribute name="sign_group">prohibitory</attribute>
+      <attribute name="ego_relevant">relevant</attribute>
+      <attribute name="visibility">clear</attribute>
+      <attribute name="needs_review">false</attribute>
+    </box>
+    <box label="traffic_sign" source="manual" occluded="0" xtl="928.60" ytl="378.47" xbr="983.76" ybr="430.29" z_order="0">
+      <attribute name="sign_group">prohibitory</attribute>
+      <attribute name="ego_relevant">relevant</attribute>
+      <attribute name="visibility">clear</attribute>
+      <attribute name="needs_review">false</attribute>
+    </box>
+    <box label="traffic_sign" source="manual" occluded="0" xtl="384.05" ytl="528.13" xbr="422.88" ybr="568.79" z_order="0">
+      <attribute name="sign_group">mandatory</attribute>
+      <attribute name="ego_relevant">relevant</attribute>
+      <attribute name="visibility">clear</attribute>
+      <attribute name="needs_review">false</attribute>
+    </box>
+  </image>
+  <image id="3" name="GTS26.png" width="1360" height="800">
+    <box label="traffic_sign" source="manual" occluded="0" xtl="712.18" ytl="493.24" xbr="734.08" ybr="511.34" z_order="0">
+      <attribute name="sign_group">danger</attribute>
+      <attribute name="ego_relevant">relevant</attribute>
+      <attribute name="visibility">clear</attribute>
+      <attribute name="needs_review">false</attribute>
+    </box>
+  </image>
+  <image id="4" name="GTS27.png" width="1360" height="800">
+    <box label="traffic_sign" source="manual" occluded="0" xtl="909.80" ytl="304.79" xbr="1030.72" ybr="408.20" z_order="0">
+      <attribute name="sign_group">danger</attribute>
+      <attribute name="ego_relevant">relevant</attribute>
+      <attribute name="visibility">clear</attribute>
+      <attribute name="needs_review">false</attribute>
+    </box>
+  </image>
+</annotations>
