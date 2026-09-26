@@ -1,1 +1,11 @@
 sample_id,decision_id,expected,severity,rationale
+G01,DEC_01,speed_limit_warning,medium,"Hành lang cây xanh dày đặc, cần nhận diện chính xác biển báo giới hạn tốc độ và cảnh báo nguy hiểm trong điều kiện tương phản cao[cite: 31]."
+G02,DEC_02,intersection_signal,high,"Ngã tư phức tạp với hệ thống đèn tín hiệu và xe cộ đông đúc, rủi ro âm tính giả cao tại giao lộ[cite: 32]."
+G03,DEC_03,lane_guidance,low,"Ánh sáng chói lóa trực diện, cần xử lý hiện tượng lóa và nhận diện chuẩn các vạch mũi tên trên mặt đường[cite: 33]."
+G04,DEC_04,speed_limit_highway,critical,"Sương mù dày đặc làm giảm tầm nhìn xa trên cao tốc, rủi ro chí mạng nếu bỏ sót biển giới hạn tốc độ[cite: 34]."
+G05,DEC_05,pedestrian_crossing,medium,"Góc cua hẹp khu dân cư, biển báo dễ bị nhiễu ngữ nghĩa bởi các biển hiệu thương mại xung quanh[cite: 35]."
+G06,DEC_06,speed_limit_suburban,medium,Trục đường ngoại ô có xe buýt lớn che khuất một phần tầm nhìn không gian phía bên trái[cite: 36].
+G07,DEC_07,construction_warning,critical,Khu vực thi công cầu vượt với giàn giáo phức tạp và mặt đường ẩm ướt tạo phản xạ sáng mạnh[cite: 37].
+G08,DEC_08,underpass_lighting,high,"Gầm cầu bê tông tạo vùng tối cục bộ, thử thách lớn đối với dải động của mô hình nhận diện[cite: 38]."
+G09,DEC_09,directional_signs,medium,Cụm bảng chỉ dẫn nhiều tầng tại vòng xuyến yêu cầu độ phân giải không gian cao để bóc tách văn bản[cite: 39].
+G10,DEC_10,urban_curve_sign,medium,Phố cổ với mật độ kiến trúc nhà ở dày đặc tạo ra nhiều cạnh góc vuông gây nhiễu bộ trích xuất biên[cite: 40].
