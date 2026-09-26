@@ -1,6 +1,6 @@
 # Annotation guideline — Gắn nhãn biển báo giao thông theo nhóm chức năng
 
-**Version:** v1
+**Version:** v2
 
 <!--
 v0 = chưa có bản nháp. Đổi dòng Version ở trên thành v1 khi xong bản nháp đầu, v2 sau calibration, v3 sau blind
@@ -133,7 +133,7 @@ Xét lần lượt, dừng ở dòng đầu tiên khớp:
 | 5 | Biển có **biển phụ chỉ làn** (VN: S.504 "Làn đường", mũi tên chỉ làn) không gồm làn ego | `not_relevant` |
 | 6 | Biển đặt trên **đảo / dải phân cách tách riêng một làn** (làn rẽ phải có đảo, làn rẽ trái tách riêng) mà ego không ở làn đó | `not_relevant` |
 | 7 | **Biển hướng đi bắt buộc đặt bên đường** (mũi tên rẽ, mũi tên đi thẳng) nhưng **mũi tên sơn trên làn ego mâu thuẫn** với biển. Ví dụ ego ở làn trái có mũi tên sơn đi thẳng, biển "hướng phải đi: rẽ phải" đặt bên phải cạnh làn rẽ phải: biển dành cho làn rẽ phải | `not_relevant` |
-| 8 | Biển thuộc chiều đi của ego, đặt bên phải, bên trái hoặc phía trên phần đường, **không có bằng chứng 1–7** | `relevant` |
+| 8 | Biển thuộc chiều đi của ego, đặt bên phải, bên trái hoặc phía trên phần đường, **không có bằng chứng 1–7**. Gồm cả: **biển nhắc lại trên dải phân cách giữa / lề trái của đường đôi** (thấy được mặt biển thì biển quay về chiều ego, vì biển của chiều ngược lại chỉ thấy mặt sau); **biển trên đảo giao thông / đầu dải phân cách ngay phía trước ego** chỉ hướng đi vòng (tròn xanh mũi tên chéo) | `relevant` |
 | 9 | Không đủ bằng chứng để chọn (không thấy vạch làn, không rõ biển quay về đường nào, biển xa ở ngã tư chưa biết thuộc nhánh nào, biển bên trái có thể của chiều ngược lại) | `uncertain` + `needs_review` |
 
 ![ego_relevant — ví dụ dòng 7](guideline_assets/ego_relevant_lane.png)
@@ -143,7 +143,9 @@ Quy tắc bổ sung:
 - **Không suy luận theo loại xe.** Biển cấm xe tải vẫn `relevant` nếu nằm trên đường đi của ego; hệ thống phía sau tự
   so với loại xe.
 - **Biển phụ** lấy cùng giá trị `ego_relevant` với biển chính mà nó gắn vào.
-- **Hai biển giống nhau hai bên đường** (lặp lại cho cùng chiều) đều `relevant`.
+- **Hai biển giống nhau hai bên đường** (lặp lại cho cùng chiều) đều `relevant` và **đều phải vẽ** (GTS04).
+- **Bỏ trống không phải là cách escalate.** Không biết chọn gì thì chọn `uncertain` và bật `needs_review`; khung còn
+  giá trị rỗng / `__undefined__` là khung chưa làm xong.
 - **Không chắc giữa `relevant` và `not_relevant` thì chọn `uncertain`**, không chọn `not_relevant`. Ghi nhầm một biển
   dừng/nhường/cấm đang áp dụng cho ego thành `not_relevant` là lỗi nghiêm trọng nhất của thuộc tính này.
 
@@ -232,7 +234,7 @@ Quy tắc khi phân vân:
 
 ## 9. Examples
 
-Ví dụ chỉ dùng ảnh split `example`. Ảnh minh hoạ nằm ở `guideline_assets/` cạnh file này: **xanh lá** = vẽ,
+Ví dụ dùng ảnh split `example` và `calibration` (không dùng ảnh blind). Ảnh minh hoạ nằm ở `guideline_assets/` cạnh file này: **xanh lá** = vẽ,
 **cam** = vẽ và bật `needs_review`, **✕ đỏ nét đứt** = không vẽ. Nhãn trên khung ghi theo thứ tự
 `sign_group · ego_relevant · visibility`.
 
@@ -240,6 +242,8 @@ Ví dụ chỉ dùng ảnh split `example`. Ảnh minh hoạ nằm ở `guidelin
 |---|---|---|---|
 | GTS06 | Biển tròn viền đỏ "30" bên phải đường ego, **hai tấm phụ** bên dưới (mũi tên phạm vi + khoảng cách; giờ áp dụng); đèn giao thông bị cắt ở mép trên phải | 3 khung riêng: `prohibitory`, `supplementary`, `supplementary`; cả ba `relevant`, `clear`. Khung biển chính không lấy tấm phụ và cột. Đèn: không vẽ | 2, 3, 4.2 (dòng 1, 3), 4.3 (biển phụ theo biển chính), 5 |
 | GTS05 | Góc phố: biển vuông xanh người đi bộ và biển tròn "30" ở góc đường nhánh bên trái; hai tấm xám trên cột bên phải là **mặt sau** biển; biển quán cà phê, biển tên phố | 2 khung: `information` và `prohibitory`, cả hai `uncertain` (không rõ ego đi thẳng hay rẽ vào đường nhánh), `clear`, bật `needs_review`. Mặt sau biển, biển quán, biển tên phố: không vẽ | 4.2 (dòng 3, 6), 4.3 (dòng 9), 5 |
+| GTS04 | Cao tốc có sương mù; cặp biển "120" + cấm xe tải vượt ở **cả** dải phân cách bên trái và lề phải; biển chỉ hướng xanh phía trên | 4 khung `prohibitory`, tất cả `relevant`, `clear`. Biển chỉ hướng: không vẽ | 2, 4.2 (dòng 3, 7), 4.3 (dòng 8) |
+| GTS03 | Ngã tư phố: hình thoi vàng; tam giác người đi bộ; biển tròn "20" kèm tấm mũi tên rẽ bên dưới; biển tròn xanh mũi tên phía trái | `priority` (hình thoi), `danger` (tam giác), `prohibitory` ("20"), `supplementary` (tấm mũi tên, khung riêng), `mandatory` (tròn xanh). Không dồn biển lạ vào một nhóm chung | 2, 4.2 (dòng 1–5) |
 | GTS07 | Cầu đang thi công, đường ướt; một chấm tròn đỏ khoảng 10 px ở giữa ảnh; hai tấm vuông nhỏ bên trái, nhận ra là tấm biển nhưng không đọc được; rào chắn sọc đỏ trắng bên phải | Chấm đỏ: không vẽ. Hai tấm vuông: mỗi tấm một khung `unknown`, `uncertain`, `poor`, bật `needs_review`. Rào chắn: không vẽ | 5, 6, 4.4 |
 
 ![GTS06 — biển chính và hai biển phụ](guideline_assets/ex_GTS06_bien_phu.jpg)
@@ -247,6 +251,8 @@ Ví dụ chỉ dùng ảnh split `example`. Ảnh minh hoạ nằm ở `guidelin
 ![GTS05 — biển đường nhánh, mặt sau biển, biển quán](guideline_assets/ex_GTS05_duong_nhanh.jpg)
 
 ![GTS07 — biển rất nhỏ và vật không phải biển](guideline_assets/ex_GTS07_bien_nho.jpg)
+
+![GTS04 — biển nhắc lại ở cả hai bên đường](guideline_assets/ex_GTS04_bien_nhac_lai.jpg)
 
 Các tình huống chưa có ảnh ví dụ (nhường đường, biển dừng, biển chỉ hướng xếp chồng, biển bị che) dùng bảng 4.1,
 thứ tự 4.2 và hai sơ đồ ở mục 4.
@@ -272,3 +278,15 @@ thứ tự 4.2 và hai sơ đồ ở mục 4.
     `uncertain`.
 14. **Đánh `not_relevant` cho biển bên trái đường.** Biển có thể đặt bổ sung bên trái hoặc trên cao cho cùng chiều
     (QCVN 41:2024 Điều 16.2); vị trí trái/phải một mình không đủ để kết luận.
+15. **Bỏ sót biển nhắc lại bên trái** trên đường đôi / cao tốc (GTS04): quét cả dải phân cách giữa, không chỉ lề phải.
+
+## Self-QC trước khi export
+
+Kiểm từng ảnh trước khi export; còn sai một dòng thì sửa rồi mới export.
+
+- [ ] Không còn khung nào có `sign_group = __undefined__` (dùng bộ lọc / danh sách object của CVAT).
+- [ ] Khung `sign_group = unknown` thì `visibility` là `partial` hoặc `poor`, và `needs_review` bật.
+- [ ] Khung `ego_relevant = uncertain` thì `needs_review` bật.
+- [ ] Biển đường nhánh, biển bị che, biển mờ đã đổi khỏi mặc định `relevant` / `clear` nếu cần (4.3, 4.4).
+- [ ] Đã quét cả lề phải, dải phân cách / lề trái, phía trên đường và phía xa ở cỡ gốc.
+- [ ] Biển phụ là khung riêng; khung biển chính không lấy cột hay tấm phụ.
